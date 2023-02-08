@@ -37,9 +37,9 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
 
-    // <SudokuBoard/>
+    <SudokuBoard/>
 
-    <CoolButton/>
+    // <CoolButton/>
   );
 }
 

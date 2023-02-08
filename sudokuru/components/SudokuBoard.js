@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
+import { View } from 'react-native';
 import { Set, List, fromJS } from 'immutable';
 import PropTypes from 'prop-types';
 
@@ -26,9 +27,9 @@ const DeepOrange200 = '#FFAB91';
 const DeepOrange600 = '#F4511E';
 const ControlNumberColor = Indigo700;
 
-/*
+
 // eslint-disable-next-line no-lone-blocks
-{ /* language=CSS  }
+{ /* language=CSS  */ }
 const CellStyle = css`
 .cell {
     height: ${cellWidth}em;
@@ -61,7 +62,7 @@ const CellStyle = css`
 `;
 
 // eslint-disable-next-line no-lone-blocks
-{ /* language=CSS  }
+{ /* language=CSS  */ }
 const ActionsStyle = css`
 .actions {
     display: flex;
@@ -87,7 +88,7 @@ const ActionsStyle = css`
 `;
 
 // eslint-disable-next-line no-lone-blocks
-{ /* language=CSS  }
+{ /* language=CSS */ }
 const ControlStyle = css`
 .control {
     padding: 0 2em;
@@ -103,7 +104,7 @@ const ControlStyle = css`
 `;
 
 // eslint-disable-next-line no-lone-blocks
-{ /* language=CSS  }
+{ /* language=CSS */ }
 const NumberControlStyle = css`
 .number {
     display: flex;
@@ -124,7 +125,7 @@ const NumberControlStyle = css`
 `;
 
 // eslint-disable-next-line no-lone-blocks
-{ /* language=CSS  }
+{ /* language=CSS */ }
 const PuzzleStyle = css`
 .puzzle {
     margin-top: .5em;
@@ -145,8 +146,6 @@ const PuzzleStyle = css`
     border-bottom: 2px solid black !important;
 }
 `;
-
-*/ // end css
 
 function getBackGroundColor({
   conflict, isPeer, sameValue, isSelected,
@@ -572,20 +571,20 @@ export default class SudokuBoard extends React.Component {
     return (
       <View className="actions">
         <View className="action" onClick={history.size ? this.undo : null}>
-          <UndoIcon />
+          {/* <UndoIcon /> */}
         </View>
         <View className="action note" onClick={this.toggleNoteMode}>
-          {inNoteMode ? <NoteIcon /> : <NoteOffIcon />}
+          {/* {inNoteMode ? <NoteIcon /> : <NoteOffIcon />} */}
         </View>
         <View className="action" onClick={!prefilled ? this.eraseSelected : null}>
-          <EraseIcon />
+          {/* <EraseIcon /> */}
         </View>
         <View
           className="action"
           onClick={!prefilled ?
           this.fillSelectedWithSolution : null}
         >
-          <HintIcon />
+          {/* <HintIcon /> */}
         </View>
         {/* <style jsx>{ActionsStyle}</style> */}
       </View>

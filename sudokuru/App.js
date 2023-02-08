@@ -1,5 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import CoolButton from "./components/CoolButton";
+// import SudokuBoard from './components/SudokuBoard';
 
 function oneIndexedIntArr (n)
 {
@@ -29,18 +32,22 @@ const Cell = (props) => {
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app! {oneIndexedIntArr(9)}</Text>
-      <StatusBar style="auto" />
-    </View>
+    // <View style={styles.container}>
+    //   <Text>Open up App.js to start working on your app! {oneIndexedIntArr(9)}</Text>
+    //   <StatusBar style="auto" />
+    // </View>
+
+    // <SudokuBoard/>
+
+    <CoolButton/>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });

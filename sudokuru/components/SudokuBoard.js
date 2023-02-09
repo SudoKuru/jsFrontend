@@ -179,7 +179,7 @@ const NumberControl = ({ number, onClick, completionPercentage }) => (
   >
     <View>{number}</View>
     {/* <CirclularProgress percent={completionPercentage} /> */}
-    {/* <style jsx>{NumberControlStyle}</style> */}
+    { <style jsx>{NumberControlStyle}</style> }
   </View>
 );
 
@@ -213,7 +213,7 @@ const Cell = (props) => {
             )) :
           value && value
       }
-      {/* language=CSS
+      {/* language=CSS */}
       <style jsx>{CellStyle}</style>
       <style jsx>{`
                 .cell {
@@ -221,7 +221,7 @@ const Cell = (props) => {
                     color: ${fontColor || 'initial'};
                 }
             `}
-      </style> */}
+      </style>
     </View>
   );
 };
@@ -558,7 +558,7 @@ export default class SudokuBoard extends React.Component {
             />
           );
         })}
-        {/* <style jsx>{ControlStyle}</style> */}
+        { <style jsx>{ControlStyle}</style> }
       </View>
     );
   }
@@ -586,7 +586,7 @@ export default class SudokuBoard extends React.Component {
         >
           {/* <HintIcon /> */}
         </View>
-        {/* <style jsx>{ActionsStyle}</style> */}
+        { <style jsx>{ActionsStyle}</style> }
       </View>
     );
   }
@@ -603,7 +603,7 @@ export default class SudokuBoard extends React.Component {
             }
           </View>
         )).toArray()}
-        {/* <style jsx>{PuzzleStyle}</style> */}
+        { <style jsx>{PuzzleStyle}</style> }
       </View>
     );
   }
@@ -614,7 +614,7 @@ export default class SudokuBoard extends React.Component {
         {this.renderNumberControl()}
         {this.renderActions()}
         { /* language=CSS */ }
-        {/* <style jsx>{`
+        { <style jsx>{`
             .controls {
                 margin-top: .25em;
                 display: flex;
@@ -625,7 +625,7 @@ export default class SudokuBoard extends React.Component {
                 width: 100%;
             }
         `}
-        </style> */}
+        </style> }
       </View>
     );
   }
@@ -634,7 +634,7 @@ export default class SudokuBoard extends React.Component {
     return (
       <View className="header">
         { /* language=CSS */ }
-        {/* <style jsx>{`
+        { <style jsx>{`
             .header {
                 display: flex;
                 width: 100%;
@@ -656,7 +656,7 @@ export default class SudokuBoard extends React.Component {
                 margin-bottom: .3em;
             }
         `}
-        </style> */}
+        </style> }
       </View>
     );
   }
@@ -680,7 +680,7 @@ export default class SudokuBoard extends React.Component {
         {board && this.renderPuzzle()}
         {board && this.renderControls()}
         { /* language=CSS */ }
-        {/* < jsx>{`
+        <style jsx>{`
             :global(body), .body {
               font-family: "Inter", sans-serif;
             }
@@ -710,7 +710,7 @@ export default class SudokuBoard extends React.Component {
             }
         `}
         </style>
-        <style jsx global>{RangeStyle}</style> */}
+        <style jsx global>{RangeStyle}</style>
       </View>
     );
   }

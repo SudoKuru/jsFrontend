@@ -3,6 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from "react";
 import CoolButton from "./components/CoolButton";
 import SudokuBoard from './components/SudokuBoard';
+import { createRoot } from "react-dom/client";
+import { Platform } from "react-native";
+import { registerRootComponent } from 'expo';
+import "expo/build/Expo.fx";
+import { activateKeepAwake } from "expo-keep-awake";
 
 function oneIndexedIntArr (n)
 {
@@ -30,7 +35,20 @@ const Cell = (props) => {
   )
 }
 
-export default function App() {
+if (__DEV__) {
+  activateKeepAwake();
+}
+
+if (Platform.OS === "web") {
+  const root = createRoot(
+    document.getElementById("root") ?? document.getElementById("main")
+  );
+  root.render(<SudokuBoard/>);
+} else {
+  registerRootComponent(SudokuBoard);
+}
+
+/*export default function App() {
   return (
     // <View style={styles.container}>
     //   <Text>Open up App.js to start working on your app! {oneIndexedIntArr(9)}</Text>
@@ -42,7 +60,7 @@ export default function App() {
     // <CoolButton/>
   );
 }
-
+*/
 // const styles = StyleSheet.create({
 //   container: {
 //     flex: 1,

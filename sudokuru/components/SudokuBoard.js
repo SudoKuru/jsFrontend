@@ -322,7 +322,19 @@ function getNumberOfGroupsAssignedForNumber(number, groups) {
 }
 
 export default class SudokuBoard extends React.Component {
-  state = {};
+
+  constructor(props) {
+    super(props);
+    const solution = makePuzzle();
+    // pluck values from cells to create the game
+    const { puzzle } = pluck(solution, 20);
+    // initialize the board with choice counts
+    const board = makeBoard({ puzzle });
+    this.state = ({
+      board, history: List.of(board), historyOffSet: 0, solution,
+    });
+    this.renderPuzzle = this.renderPuzzle.bind(this);
+  }
 
   componentDidMount() {
     if ('serviceWorker' in navigator) {
@@ -358,14 +370,14 @@ export default class SudokuBoard extends React.Component {
     );
   }
 
-  generateGame = (finalCount = 20) => {
+  generateGame() {
     // get a filled puzzle generated
     const solution = makePuzzle();
     // pluck values from cells to create the game
     const { puzzle } = pluck(solution, finalCount);
     // initialize the board with choice counts
     const board = makeBoard({ puzzle });
-    this.setState({
+    this.setState = ({
       board, history: List.of(board), historyOffSet: 0, solution,
     });
   }
@@ -662,9 +674,6 @@ export default class SudokuBoard extends React.Component {
   }
 
   render() {
-    const { board } = this.state;
-    if (!board) 
-      this.generateGame();
     return (
       <View className="body">
           <title>Sudoku Evolved</title>
@@ -676,9 +685,9 @@ export default class SudokuBoard extends React.Component {
           <meta property="og:type" content="website" />
           <meta property="og:description" content={Description} />
           <meta property="og:image" content="https://sudoku.sitianliu.com/static/og-image.png" />
-        {board && this.renderHeader()}
-        {board && this.renderPuzzle()}
-        {board && this.renderControls()}
+        {this.renderHeader()}
+        {this.renderPuzzle()}
+        {this.renderControls()}
         { /* language=CSS */ }
         <style jsx="true">{`
             :global(body), .body {

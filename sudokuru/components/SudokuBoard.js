@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Set, List, fromJS } from 'immutable';
 import PropTypes from 'prop-types';
 
@@ -22,114 +22,39 @@ const DeepOrange200 = '#FFAB91';
 const DeepOrange600 = '#F4511E';
 const ControlNumberColor = Indigo700;
 
-// const CellStyle = css`
-// .cell {
-//     height: ${cellWidth}em;
-//     width: ${cellWidth}em;
-//     display: flex;
-//     flex-wrap: wrap;
-//     align-items: center;
-//     justify-content: center;
-//     font-size: 1.1em;
-//     font-weight: bold;
-//     transition: background-color .3s ease-in-out;
-//     outline: none;
-//     box-shadow: none;
-// }
-// .cell:nth-child(3n+3):not(:last-child) {
-//     border-right: 2px solid black;
-// }
-// .cell:not(:last-child) {
-//     border-right: 1px solid black;
-// }
-// .note-number {
-//     font-size: .6em;
-//     width: 33%;
-//     height: 33%;
-//     box-sizing: border-box;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-// }
-// `;
-
-// const ActionsStyle = css`
-// .actions {
-//     display: flex;
-//     align-items: center;
-//     justify-content: space-between;
-//     width: 100%;
-//     max-width: 400px;
-//     margin-top: .5em;
-//     padding: 0 .6em;
-// }
-// .action {
-//     display: flex;
-//     align-items: center;
-//     flex-direction: column;
-// }
-// .action :global(svg) {
-//     width: 2.5em;
-//     margin-bottom: .2em;
-// }
-// .redo :global(svg) {
-//     transform: scaleX(-1);
-// }
-// `;
-
-// const ControlStyle = css`
-// .control {
-//     padding: 0 2em;
-//     cursor: pointer;
-//     display: inline-flex;
-//     align-items: center;
-//     flex-wrap: wrap;
-//     justify-content: center;
-//     font-family: "Inter", sans-serif;
-//     transition: filter .5s ease-in-out;
-//     width: 100%;
-// }
-// `;
-
-// const NumberControlStyle = css`
-// .number {
-//     display: flex;
-//     position: relative;
-//     justify-content: center;
-//     align-items: center;
-//     font-size: 2em;
-//     margin: .1em;
-//     width: 1em;
-//     height: 1em;
-//     color: black;
-//     border: 2px solid black;
-//     border-radius: .15em;
-// }
-// .number > View {
-//     margin-top: .0em;
-// }
-// `;
-
-// const PuzzleStyle = css`
-// .puzzle {
-//     margin-top: .5em;
-//     width: ${cellWidth * 9}em;
-//     cursor: pointer;
-//     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-// }
-// .row {
-//     display: flex;
-//     align-items: center;
-//     flex: 0;
-//     width: ${cellWidth * 9}em;
-// }
-// .row:not(:last-child) {
-//     border-bottom: 1px solid black;
-// }
-// .row:nth-child(3n+3):not(:last-child) {
-//     border-bottom: 2px solid black !important;
-// }
-// `;
+const styles = StyleSheet.create({
+  numberContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  numberText: {
+    fontSize: 20
+  }, 
+  controlStyle: {
+    padding: 0,
+    cursor: 'pointer',
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    fontFamily: 'Inter',
+    transition: 'filter .5s ease-in-out',
+    width: '100%'
+  },
+  controls: {
+    marginTop: 0.25,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    padding: 0.5,
+    width: '100%'
+  },
+});
 
 function getBackGroundColor({
   conflict, isPeer, sameValue, isSelected,
@@ -160,9 +85,9 @@ const NumberControl = ({ number, onClick, completionPercentage }) => (
     key={number}
     className="number"
     onClick={onClick}
+    style={styles.numberContainer}
   >
-    <View>{number}</View>
-    {/* <style jsx>{NumberControlStyle}</style> */}
+    <View><Text style={styles.numberText}>{number}</Text></View>
   </View>
 );
 
@@ -186,16 +111,16 @@ const Cell = (props) => {
   const fontColor = getFontColor({ conflict, prefilled, value });
   return (
     <View className="cell" onClick={onClick} onKeyDown={onKeyPress} tabIndex="0">
-      {
-        notes ?
-          range(9).map(i =>
-            (
-              <View key={i} className="note-number">
-                {notes.has(i + 1) && (i + 1)}
-              </View>
-            )) :
-          value && value
-      }
+    {
+    notes ?
+    range(9).map(i =>
+    (
+    <View key={i} className="note-number">
+      {notes.has(i + 1) && <Text>{i + 1}</Text>}
+    </View>
+    )) :
+    value && <Text>{value}</Text>
+    }
       {/* <style jsx>{CellStyle}</style>
       <style jsx>{`
                 .cell {
@@ -455,7 +380,8 @@ export default class SudokuBoard extends React.Component {
                          value === selected.get('value'));
 
     const isSelected = cell === selected;
-    return (<Cell
+    return (
+    <Cell
       prefilled={prefilled}
       notes={notes}
       sameValue={sameValue}
@@ -468,7 +394,23 @@ export default class SudokuBoard extends React.Component {
       x={x}
       y={y}
       conflict={conflict}
-    />);
+    />
+    );
+  }
+  
+  renderPuzzle = () => {
+    const { board } = this.state;
+    return (
+      <View>
+        {board.get('puzzle').map((row, i) => (
+          <View key={i} className="row">
+            {
+              row.map((cell, j) => this.renderCell(cell, i, j)).toArray()
+            }
+          </View>
+        )).toArray()}
+      </View>
+    );
   }
   
   renderNumberControl = () => {
@@ -482,23 +424,23 @@ export default class SudokuBoard extends React.Component {
         {range(9).map((i) => {
           const number = i + 1;
           const onClick = !prefilled 
-            ? () => {
-              inNoteMode 
-                ? this.addNumberAsNote(number) 
-                : this.fillNumber(number); 
-            } 
-            : undefined;
-          
+          ? () => {
+            inNoteMode 
+            ? this.addNumberAsNote(number) 
+            : this.fillNumber(number); 
+          } 
+          : undefined;
+
           return (
             <NumberControl
-              key={number}
-              number={number}
-              onClick={onClick}
-              completionPercentage={this.getNumberValueCount(number) / 9}
+            style={styles.controlStyle}
+            key={number}
+            number={number}
+            onClick={onClick}
+            completionPercentage={this.getNumberValueCount(number) / 9}
             />
-          );
-        })}
-        {/* <style jsx>{ControlStyle}</style> */}
+            );
+          })}
       </View>
     );
   }
@@ -509,103 +451,48 @@ export default class SudokuBoard extends React.Component {
     const prefilled = selectedCell && selectedCell.get('prefilled');
     const inNoteMode = board.get('inNoteMode');
     return (
-      <View className="actions">
-        <View className="action" onClick={history.size ? this.undo : null}>
-          <UndoIcon />
-        </View>
-        <View className="action note" onClick={this.toggleNoteMode}>
-          {inNoteMode ? <NoteIcon /> : <NoteOffIcon />}
-        </View>
-        <View className="action" onClick={!prefilled ? this.eraseSelected : null}>
-          <EraseIcon />
-        </View>
-        <View
-          className="action"
-          onClick={!prefilled ?
-          this.fillSelectedWithSolution : null}
-        >
-          <HintIcon />
-        </View>
-        {/* <style jsx>{ActionsStyle}</style> */}
+      <View>
+        <TouchableOpacity onPress={history.size ? this.undo : null}>
+          <Text>Undo</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.toggleNoteMode}>
+          <Text>{inNoteMode ? "Note ON" : "Note OFF"}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={!prefilled ? this.eraseSelected : null}>
+          <Text>Erase</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={!prefilled ? this.fillSelectedWithSolution : null}>
+          <Text>Hint</Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
-
-  renderPuzzle = () => {
-    const { board } = this.state;
-    return (
-      <View className="puzzle">
-        {board.get('puzzle').map((row, i) => (
-          <View key={i} className="row">
-            {
-              row.map((cell, j) => this.renderCell(cell, i, j)).toArray()
-            }
-          </View>
-        )).toArray()}
-        {/* <style jsx>{PuzzleStyle}</style> */}
-      </View>
-    );
-  }
-
+      );
+    }
+  
   renderControls = () => {
     return (
-      <View className="controls">
+      <View style={styles.controls}>
         {this.renderNumberControl()}
         {this.renderActions()}
-        {/* <style jsx>{`
-            .controls {
-                margin-top: .25em;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-wrap: wrap;
-                padding: .5em 0;
-                width: 100%;
-            }
-        `}
-        </style> */}
       </View>
     );
+  }
+
+  componentDidMount() {
+    if (!this.state.board) {
+      this.generateGame();
+    }
   }
 
   render = () => {
     const { board } = this.state;
     if (!board) 
+    {
       this.generateGame();
+    }
     return (
       <View>
         {board && this.renderPuzzle()}
         {board && this.renderControls()}
-        {/* <style jsx>{`
-            :global(body), .body {
-              font-family: "Inter", sans-serif;
-            }
-            .body {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 100vh;
-                width: 100vw;
-                position: relative;
-            }
-            @media (min-width: 800px) and (min-height: 930px){
-                :global(.header, .puzzle, .controls) {
-                    font-size: 1.5em;
-                }
-            }
-            :global(body) {
-                margin: 0;
-            }
-            .rooter {
-                position: fixed;
-                bottom: 0;
-                font-size: .8em;
-                width: 100%;
-                text-align: center;
-            }
-        `}
-        </style> */}
       </View>
     );
   }

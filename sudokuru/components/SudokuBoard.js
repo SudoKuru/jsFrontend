@@ -54,6 +54,29 @@ const styles = StyleSheet.create({
     padding: 0.5,
     width: '100%'
   },
+  boardContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  cellContainer: {
+    height: 40,
+    width: 40,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  noteNumber: {
+    fontSize: 12,
+    width: '33%',
+    height: '33%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 function getBackGroundColor({
@@ -101,34 +124,43 @@ NumberControl.defaultProps = {
   onClick: null,
 };
 
+// const Cell = (props) => {
+//   const {
+//     value, onClick, onKeyPress, isPeer, isSelected, sameValue, prefilled, notes, conflict,
+//   } = props;
+//   const backgroundColor = getBackGroundColor({
+//     conflict, isPeer, sameValue, isSelected,
+//   });
+//   const fontColor = getFontColor({ conflict, prefilled, value });
+//   return (
+//     <View className="cell" onClick={onClick} onKeyDown={onKeyPress} tabIndex="0">
+//     {
+//     notes ?
+//     range(9).map(i =>
+//     (
+//     <View key={i} className="note-number">
+//       {notes.has(i + 1) && <Text>{i + 1}</Text>}
+//     </View>
+//     )) :
+//     value && <Text>{value}</Text>
+//     }
+//     </View>
+//   );
+// };
+
 const Cell = (props) => {
-  const {
-    value, onClick, onKeyPress, isPeer, isSelected, sameValue, prefilled, notes, conflict,
-  } = props;
-  const backgroundColor = getBackGroundColor({
-    conflict, isPeer, sameValue, isSelected,
-  });
-  const fontColor = getFontColor({ conflict, prefilled, value });
+  const { value, onClick, onKeyPress, notes } = props;
   return (
-    <View className="cell" onClick={onClick} onKeyDown={onKeyPress} tabIndex="0">
-    {
-    notes ?
-    range(9).map(i =>
-    (
-    <View key={i} className="note-number">
-      {notes.has(i + 1) && <Text>{i + 1}</Text>}
-    </View>
-    )) :
-    value && <Text>{value}</Text>
-    }
-      {/* <style jsx>{CellStyle}</style>
-      <style jsx>{`
-                .cell {
-                    background-color: ${backgroundColor || 'initial'};
-                    color: ${fontColor || 'initial'};
-                }
-            `}
-      </style> */}
+    <View style={styles.cellContainer}>
+      {
+        notes ?
+          range(9).map(i => (
+            <View key={i} style={styles.noteNumber}>
+              {notes.has(i + 1) && <Text>{i + 1}</Text>}
+            </View>
+          ))
+          : value && <Text>{value}</Text>
+      }
     </View>
   );
 };
@@ -401,17 +433,15 @@ export default class SudokuBoard extends React.Component {
   renderPuzzle = () => {
     const { board } = this.state;
     return (
-      <View>
+      <View style={styles.boardContainer}>
         {board.get('puzzle').map((row, i) => (
-          <View key={i} className="row">
-            {
-              row.map((cell, j) => this.renderCell(cell, i, j)).toArray()
-            }
+          <View key={i} style={styles.rowContainer}>
+            {row.map((cell, j) => this.renderCell(cell, i, j)).toArray()}
           </View>
         )).toArray()}
       </View>
     );
-  }
+  };
   
   renderNumberControl = () => {
     const { board } = this.state;

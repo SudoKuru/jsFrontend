@@ -5,7 +5,7 @@ import SudokuBoard from './components/SudokuBoard';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your thing!</Text>
+      <Text>Sudoku Board Demo</Text>
 
       <SudokuBoard/>
 

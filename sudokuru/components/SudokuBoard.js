@@ -135,35 +135,33 @@ NumberControl.defaultProps = {
 //   return (
 //     <View className="cell" onClick={onClick} onKeyDown={onKeyPress} tabIndex="0">
 //     {
-//     notes ?
-//     range(9).map(i =>
-//     (
-//     <View key={i} className="note-number">
-//       {notes.has(i + 1) && <Text>{i + 1}</Text>}
-//     </View>
-//     )) :
-//     value && <Text>{value}</Text>
+//       notes ? range(9).map(i => (
+//         <View key={i} className="note-number">
+//           {notes.has(i + 1) && <Text>{i + 1}</Text>}
+//         </View>
+//       )) : value && <Text>{value}</Text>
 //     }
 //     </View>
 //   );
 // };
 
 const Cell = (props) => {
-  const { value, onClick, onKeyPress, notes } = props;
+  const { value, onClick, onKeyPress, isPeer, isSelected, sameValue, prefilled, notes, conflict, x, y } = props;
+  const backgroundColor = getBackGroundColor({ conflict, isPeer, sameValue, isSelected });
+  const fontColor = getFontColor({ conflict, prefilled, value });
   return (
-    <View style={styles.cellContainer}>
+    <View style={styles.cellContainer} onClick={() => onClick(x, y)}>
       {
-        notes ?
-          range(9).map(i => (
-            <View key={i} style={styles.noteNumber}>
-              {notes.has(i + 1) && <Text>{i + 1}</Text>}
-            </View>
-          ))
-          : value && <Text>{value}</Text>
+        notes ? range(9).map(i => (
+          <View key={i} style={styles.noteNumber}>
+            {notes.has(i + 1) && <Text>{i + 1}</Text>}
+          </View>
+        )) : value && <Text>{value}</Text>
       }
     </View>
   );
 };
+
 
 Cell.propTypes = {
   value: PropTypes.number,
@@ -250,6 +248,10 @@ export default class SudokuBoard extends React.Component {
   getSelectedCell = () => {
     const { board } = this.state;
     const selected = board.get('selected');
+
+    // output the selected cell to console
+    console.log('selected cell', selected);
+
     return selected && board.get('puzzle').getIn([selected.x, selected.y]);
   }
 
@@ -374,6 +376,9 @@ export default class SudokuBoard extends React.Component {
   };
 
   selectCell = (x, y) => {
+
+    //console.log(`Cell clicked at (${x}, ${y})`);
+
     let { board } = this.state;
     board = board.set('selected', { x, y });
     this.setState({ board });
@@ -410,25 +415,27 @@ export default class SudokuBoard extends React.Component {
     const peer = areCoordinatePeers({ x, y }, board.get('selected'));
     const sameValue = !!(selected && selected.get('value') && 
                          value === selected.get('value'));
-
+  
     const isSelected = cell === selected;
+  
     return (
-    <Cell
-      prefilled={prefilled}
-      notes={notes}
-      sameValue={sameValue}
-      isSelected={isSelected}
-      isPeer={peer}
-      value={value}
-      onClick={() => { this.selectCell(x, y); }}
-      onKeyPress={(event) => this.handleKeyDown(event)}
-      key={y}
-      x={x}
-      y={y}
-      conflict={conflict}
-    />
+      <Cell
+        prefilled={prefilled}
+        notes={notes}
+        sameValue={sameValue}
+        isSelected={isSelected}
+        isPeer={peer}
+        value={value}
+        onClick={(x, y) => { this.selectCell(x, y); }} // console.log(`Cell clicked at (${x}, ${y})`)
+        onKeyPress={(event) => this.handleKeyDown(event)}
+        key={y}
+        x={x}
+        y={y}
+        conflict={conflict}
+      />
     );
-  }
+  };
+  
   
   renderPuzzle = () => {
     const { board } = this.state;
@@ -436,7 +443,7 @@ export default class SudokuBoard extends React.Component {
       <View style={styles.boardContainer}>
         {board.get('puzzle').map((row, i) => (
           <View key={i} style={styles.rowContainer}>
-            {row.map((cell, j) => this.renderCell(cell, i, j)).toArray()}
+            { row.map((cell, j) => this.renderCell(cell, i, j)).toArray() }
           </View>
         )).toArray()}
       </View>

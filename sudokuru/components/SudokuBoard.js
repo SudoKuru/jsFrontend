@@ -59,6 +59,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'center',
+    // Set the border width to 3 and the border color to black
+    borderWidth: 3,
+    borderColor: 'black',
   },
   cellContainer: {
     height: 40,
@@ -66,8 +69,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'black',
+    // Remove the border width and border color from here
+    // borderWidth: 1,
+    // borderColor: 'black',
   },
   noteNumber: {
     fontSize: 12,
@@ -410,6 +414,32 @@ export default class SudokuBoard extends React.Component {
     
   };
 
+  // Define a getCellStyle function that returns different styles based on the row and column indices
+  getCellStyle = (row, col) => {
+    let style = {};
+    // Set the border color to black
+    style.borderColor = 'black';
+    // Set the border width to 1 for all sides
+    style.borderWidth = 1;
+    // If the row index is 0, 3, or 6, set the top border width to 3
+    if (row % 3 === 0) {
+      style.borderTopWidth = 3;
+    }
+    // If the row index is 2, 5, or 8, set the bottom border width to 3
+    if (row % 3 === 2) {
+      style.borderBottomWidth = 3;
+    }
+    // If the column index is 0, 3, or 6, set the left border width to 3
+    if (col % 3 === 0) {
+      style.borderLeftWidth = 3;
+    }
+    // If the column index is 2, 5, or 8, set the right border width to 3
+    if (col % 3 === 2) {
+      style.borderRightWidth = 3;
+    }
+    return style;
+  };
+
   renderCell = (cell, x, y) => {
     const { board } = this.state;
     const selected = this.getSelectedCell();
@@ -423,6 +453,7 @@ export default class SudokuBoard extends React.Component {
   
     return (
       <Cell
+        style={this.getCellStyle(x, y)}
         prefilled={prefilled}
         notes={notes}
         sameValue={sameValue}
@@ -437,8 +468,7 @@ export default class SudokuBoard extends React.Component {
         conflict={conflict}
       />
     );
-  };
-  
+  };  
   
   renderPuzzle = () => {
     const { board } = this.state;

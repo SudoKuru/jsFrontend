@@ -104,14 +104,15 @@ function getFontColor({ value, conflict, prefilled }) {
 }
 
 const NumberControl = ({ number, onClick, completionPercentage }) => (
-  <View
-    key={number}
-    className="number"
-    onClick={onClick}
-    style={styles.numberContainer}
-  >
-    <View><Text style={styles.numberText}>{number}</Text></View>
-  </View>
+  <TouchableOpacity onPress={onClick}>
+    <View
+      key={number}
+      className="number"
+      style={styles.numberContainer}
+    >
+      <View><Text style={styles.numberText}>{number}</Text></View>
+    </View>
+  </TouchableOpacity>
 );
 
 NumberControl.propTypes = {
@@ -150,7 +151,8 @@ const Cell = (props) => {
   const backgroundColor = getBackGroundColor({ conflict, isPeer, sameValue, isSelected });
   const fontColor = getFontColor({ conflict, prefilled, value });
   return (
-    <View style={styles.cellContainer} onClick={() => onClick(x, y)}>
+    <TouchableOpacity onPress={() => onClick(x, y)}>
+      <View style={styles.cellContainer}>
       {
         notes ? range(9).map(i => (
           <View key={i} style={styles.noteNumber}>
@@ -158,7 +160,8 @@ const Cell = (props) => {
           </View>
         )) : value && <Text>{value}</Text>
       }
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 

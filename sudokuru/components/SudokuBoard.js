@@ -11,7 +11,7 @@ import UndoIcon from '../assets/undo.svg';
 
 import { makePuzzle, pluck, isPeer as areCoordinatePeers, range } from './sudoku.js';
 
-const Description = '';
+const Description = ''; //
 const cellWidth = 2.5;
 
 const LightBlue100 = '#B3E5FC';

@@ -77,6 +77,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  cell: {
+    height: 40,
+    width: 40,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+  },
+  conflict: {
+    // styles for cells with conflict prop
+    color: DeepOrange600,
+    backgroundColor: DeepOrange200,
+  },
+  peer: {
+    // styles for cells with isPeer prop
+    color: Indigo700,
+    backgroundColor: LightBlue100,
+  },
+  sameValue: {
+    // styles for cells with sameValue prop
+    color: Indigo700,
+    backgroundColor: LightBlue300,
+  },
+  selected: {
+    // styles for cells with isSelected prop
+    color: Indigo700,
+    backgroundColor: LightBlue200,
+  },
+  prefilled: {
+    // styles for cells with prefilled prop
+  }
 });
 
 function getBackGroundColor({
@@ -148,23 +179,20 @@ NumberControl.defaultProps = {
 
 const Cell = (props) => {
   const { value, onClick, onKeyPress, isPeer, isSelected, sameValue, prefilled, notes, conflict, x, y } = props;
-  const backgroundColor = getBackGroundColor({ conflict, isPeer, sameValue, isSelected });
-  const fontColor = getFontColor({ conflict, prefilled, value });
   return (
     <TouchableOpacity onPress={() => onClick(x, y)}>
-      <View style={styles.cellContainer}>
+      <View style={[styles.cell, conflict && styles.conflict, isPeer && styles.peer, sameValue && styles.sameValue, isSelected && styles.selected]}>
       {
         notes ? range(9).map(i => (
           <View key={i} style={styles.noteNumber}>
             {notes.has(i + 1) && <Text>{i + 1}</Text>}
           </View>
-        )) : value && <Text>{value}</Text>
+        )) : value && <Text style={[styles.cell, conflict && styles.conflict, prefilled && styles.prefilled]}>{value}</Text>
       }
       </View>
     </TouchableOpacity>
   );
 };
-
 
 Cell.propTypes = {
   value: PropTypes.number,

@@ -83,18 +83,18 @@ const styles = StyleSheet.create({
   },
   conflict: {
     // styles for cells with conflict prop
-    color: DeepOrange600,
-    backgroundColor: DeepOrange200,
+    color: '#000000',
+    backgroundColor: '#FFC3BF',
   },
   peer: {
     // styles for cells with isPeer prop
     color: '#000000',
-    backgroundColor: '#c4e0f0',
+    backgroundColor: '#C5DDF4',
   },
   sameValue: {
     // styles for cells with sameValue prop
     color: '#000000',
-    backgroundColor: '#c4dcc8',
+    backgroundColor: '#c8dcc4',
   },
   selected: {
     // styles for cells with isSelected prop
@@ -103,32 +103,37 @@ const styles = StyleSheet.create({
   },
   prefilled: {
     // styles for cells with prefilled prop
-  }
+  }, 
+  selectedConflict: {
+    // styles for cells with isSelected and conflict props
+    color: '#FF0000',
+    backgroundColor: '#FF7C75',
+  },
 });
 
-function getBackGroundColor({
-  conflict, isPeer, sameValue, isSelected,
-}) {
-  if (conflict && isPeer && sameValue) {
-    return DeepOrange200;
-  } else if (sameValue) {
-    return LightBlue300;
-  } else if (isSelected) {
-    return LightBlue200;
-  } else if (isPeer) {
-    return LightBlue100;
-  }
-  return false;
-}
+// function getBackGroundColor({
+//   conflict, isPeer, sameValue, isSelected,
+// }) {
+//   if (conflict && isPeer && sameValue) {
+//     return DeepOrange200;
+//   } else if (sameValue) {
+//     return LightBlue300;
+//   } else if (isSelected) {
+//     return LightBlue200;
+//   } else if (isPeer) {
+//     return LightBlue100;
+//   }
+//   return false;
+// }
 
-function getFontColor({ value, conflict, prefilled }) {
-  if (conflict && !prefilled) {
-    return DeepOrange600;
-  } else if (!prefilled && value) {
-    return ControlNumberColor;
-  }
-  return false;
-}
+// function getFontColor({ value, conflict, prefilled }) {
+//   if (conflict && !prefilled) {
+//     return DeepOrange600;
+//   } else if (!prefilled && value) {
+//     return ControlNumberColor;
+//   }
+//   return false;
+// }
 
 const NumberControl = ({ number, onClick, completionPercentage }) => (
   <TouchableOpacity onPress={onClick}>
@@ -177,13 +182,22 @@ const Cell = (props) => {
   const { value, onClick, onKeyPress, isPeer, isSelected, sameValue, prefilled, notes, conflict, x, y } = props;
   return (
     <TouchableOpacity onPress={() => onClick(x, y)}>
-      <View style={[styles.cell, conflict && styles.conflict, isPeer && styles.peer, sameValue && styles.sameValue, isSelected && styles.selected]}>
+      <View style={[styles.cell, 
+                    conflict && styles.conflict, 
+                    isPeer && styles.peer, 
+                    sameValue && styles.sameValue, 
+                    (conflict && isSelected) && styles.selectedConflict,
+                    isSelected && styles.selected]}>
       {
         notes ? range(9).map(i => (
           <View key={i} style={styles.noteNumber}>
             {notes.has(i + 1) && <Text>{i + 1}</Text>}
           </View>
-        )) : value && <Text style={[styles.cell, conflict && styles.conflict, prefilled && styles.prefilled]}>{value}</Text>
+        )) : value && <Text style={[styles.cell, 
+                                    conflict && styles.conflict, 
+                                    (conflict && isSelected) && styles.selectedConflict,
+                                    prefilled && styles.prefilled]}>{value}
+                      </Text>
       }
       </View>
     </TouchableOpacity>

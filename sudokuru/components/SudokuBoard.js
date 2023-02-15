@@ -24,8 +24,6 @@ const ControlNumberColor = Indigo700;
 
 const styles = StyleSheet.create({
   numberContainer: {
-    borderWidth: 1,
-    borderColor: 'black',
     width: 40,
     height: 40,
     justifyContent: 'center',
@@ -66,8 +64,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'black',
   },
   noteNumber: {
     fontSize: 12,
@@ -92,18 +88,18 @@ const styles = StyleSheet.create({
   },
   peer: {
     // styles for cells with isPeer prop
-    color: Indigo700,
-    backgroundColor: LightBlue100,
+    color: '#000000',
+    backgroundColor: '#c4e0f0',
   },
   sameValue: {
     // styles for cells with sameValue prop
-    color: Indigo700,
-    backgroundColor: LightBlue300,
+    color: '#000000',
+    backgroundColor: '#c4dcc8',
   },
   selected: {
     // styles for cells with isSelected prop
-    color: Indigo700,
-    backgroundColor: LightBlue200,
+    color: '#000000',
+    backgroundColor: '#9cc4ec',
   },
   prefilled: {
     // styles for cells with prefilled prop

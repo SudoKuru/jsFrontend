@@ -11,16 +11,7 @@ import UndoIcon from '../assets/undo.svg';
 
 import { makePuzzle, pluck, isPeer as areCoordinatePeers, range } from './sudoku.js';
 
-const Description = ''; //
-const cellWidth = 2.5;
-
-const LightBlue100 = '#B3E5FC';
-const LightBlue200 = '#81D4FA';
-const LightBlue300 = '#4FC3F7';
-const Indigo700 = '#303F9F';
-const DeepOrange200 = '#FFAB91';
-const DeepOrange600 = '#F4511E';
-const ControlNumberColor = Indigo700;
+// Add parameterized colors here
 
 const styles = StyleSheet.create({
   numberContainer: {
@@ -30,7 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   numberText: {
-    fontSize: 20
+    fontSize: 20,
   }, 
   controlStyle: {
     padding: 0,
@@ -103,6 +94,8 @@ const styles = StyleSheet.create({
   },
   prefilled: {
     // styles for cells with prefilled prop
+    // FIXME why does this need border width 0 to not be thick
+    borderWidth: 0,
   }, 
   selectedConflict: {
     // styles for cells with isSelected and conflict props
@@ -417,9 +410,6 @@ export default class SudokuBoard extends React.Component {
   };
 
   selectCell = (x, y) => {
-
-    //console.log(`Cell clicked at (${x}, ${y})`);
-
     let { board } = this.state;
     board = board.set('selected', { x, y });
     this.setState({ board });

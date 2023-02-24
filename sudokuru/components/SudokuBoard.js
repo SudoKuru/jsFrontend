@@ -14,6 +14,7 @@ import { makePuzzle, pluck, isPeer as areCoordinatePeers, range } from './sudoku
 // Add parameterized colors here
 
 const styles = StyleSheet.create({
+  hardLineThickness : {thickness: 3},
   numberContainer: {
     width: 40,
     height: 40,
@@ -71,6 +72,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
+  },
+  borderThick: {
+    borderLeftWidth: 10,
   },
   conflict: {
     // styles for cells with conflict prop
@@ -175,7 +179,12 @@ const Cell = (props) => {
   const { value, onClick, onKeyPress, isPeer, isSelected, sameValue, prefilled, notes, conflict, x, y } = props;
   return (
     <TouchableOpacity onPress={() => onClick(x, y)}>
-      <View style={[styles.cell, 
+      <View style={[styles.cell,
+                    (x % 3 === 0) && {borderLeftWidth: styles.hardLineThickness.thickness},
+                    (y % 3 === 0) && {borderTopWidth: styles.hardLineThickness.thickness},
+                    (x === 8) && {borderRightWidth: styles.hardLineThickness.thickness},
+                    (y === 8) && {borderBottomWidth: styles.hardLineThickness.thickness},
+
                     conflict && styles.conflict, 
                     isPeer && styles.peer, 
                     sameValue && styles.sameValue, 
@@ -186,7 +195,7 @@ const Cell = (props) => {
           <View key={i} style={styles.noteNumber}>
             {notes.has(i + 1) && <Text>{i + 1}</Text>}
           </View>
-        )) : value && <Text style={[styles.cell, 
+        )) : value && <Text style={[styles.cell,
                                     conflict && styles.conflict, 
                                     (conflict && isSelected) && styles.selectedConflict,
                                     prefilled && styles.prefilled]}>{value}

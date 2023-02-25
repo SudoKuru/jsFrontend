@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  numberText: {
+  numberControlText: {
+    fontFamily: 'Inter_400Regular',
     fontSize: 20,
   }, 
   controlStyle: {
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    fontFamily: 'Inter',
     transition: 'filter .5s ease-in-out',
     width: '100%'
   },
@@ -57,21 +57,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  noteNumber: {
-    fontSize: 12,
+  noteView: {
     width: '33%',
     height: '33%',
     display: 'flex',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cell: {
+  noteText: {
+    fontSize: 10,
+    fontFamily: 'Inter_100Thin',
+  },
+  cellView: {
     height: 40,
     width: 40,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
+  },
+  cellText: {
+    fontFamily: 'Inter_400Regular',
+    fontSize: 31,
   },
   borderThick: {
     borderLeftWidth: 10,
@@ -139,7 +147,7 @@ const NumberControl = ({ number, onClick, completionPercentage }) => (
       className="number"
       style={styles.numberContainer}
     >
-      <View><Text style={styles.numberText}>{number}</Text></View>
+      <View><Text style={styles.numberControlText}>{number}</Text></View>
     </View>
   </TouchableOpacity>
 );
@@ -179,7 +187,7 @@ const Cell = (props) => {
   const { value, onClick, onKeyPress, isPeer, isSelected, sameValue, prefilled, notes, conflict, x, y } = props;
   return (
     <TouchableOpacity onPress={() => onClick(x, y)}>
-      <View style={[styles.cell,
+      <View style={[styles.cellView,
                     (x % 3 === 0) && {borderLeftWidth: styles.hardLineThickness.thickness},
                     (y % 3 === 0) && {borderTopWidth: styles.hardLineThickness.thickness},
                     (x === 8) && {borderRightWidth: styles.hardLineThickness.thickness},
@@ -192,10 +200,10 @@ const Cell = (props) => {
                     isSelected && styles.selected]}>
       {
         notes ? range(9).map(i => (
-          <View key={i} style={styles.noteNumber}>
-            {notes.has(i + 1) && <Text>{i + 1}</Text>}
+          <View key={i} style={styles.noteView}>
+            {notes.has(i + 1) && <Text style={styles.noteText}>{i + 1}</Text>}
           </View>
-        )) : value && <Text style={[styles.cell,
+        )) : value && <Text style={[styles.cellText,
                                     conflict && styles.conflict, 
                                     (conflict && isSelected) && styles.selectedConflict,
                                     prefilled && styles.prefilled]}>{value}

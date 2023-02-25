@@ -57,13 +57,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  noteView: {
-    width: '33%',
-    height: '33%',
-    display: 'flex',
+  // justifycontent space
+  noteViewParent: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
+    borderWidth: 2,
+  },
+  noteViewRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    borderWidth: 1,
+    borderColor: 'red'
+  },
+  noteViewElement: {
+    height: '33%',
+    width: '33%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   noteText: {
     fontSize: 10,
@@ -73,6 +85,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
@@ -199,11 +212,36 @@ const Cell = (props) => {
                     (conflict && isSelected) && styles.selectedConflict,
                     isSelected && styles.selected]}>
       {
-        notes ? range(9).map(i => (
-          <View key={i} style={styles.noteView}>
-            {notes.has(i + 1) && <Text style={styles.noteText}>{i + 1}</Text>}
+        notes ? // range(9).map(i => (
+        //           <View style={styles.noteViewElement} key={i} >
+        //             {notes.has(i + 1) && <Text>{i + 1}</Text>}
+        //           </View>
+        //         ))
+        <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <View style={{
+            flexDirection: 'row',}}>
+            <View>
+              <View style={{width: 11, height: 11, paddingLeft: 2}} >{notes.has(1) && <Text style={styles.noteText}>{1}</Text>}</View>
+              <View style={{width: 11, height: 11, paddingLeft: 2}} >{notes.has(4) && <Text style={styles.noteText}>{4}</Text>}</View>
+              <View style={{width: 11, height: 11, paddingLeft: 2}} >{notes.has(7) && <Text style={styles.noteText}>{7}</Text>}</View>
+            </View>
+            <View>
+              <View style={{width: 11, height: 11, paddingLeft: 2}} >{notes.has(2) && <Text style={styles.noteText}>{2}</Text>}</View>
+              <View style={{width: 11, height: 11, paddingLeft: 2}} >{notes.has(5) && <Text style={styles.noteText}>{5}</Text>}</View>
+              <View style={{width: 11, height: 11, paddingLeft: 2}} >{notes.has(8) && <Text style={styles.noteText}>{8}</Text>}</View>
+            </View>
+            <View>
+              <View style={{width: 11, height: 11, paddingLeft: 2}} >{notes.has(3) && <Text style={styles.noteText}>{3}</Text>}</View>
+              <View style={{width: 11, height: 11, paddingLeft: 2}} >{notes.has(6) && <Text style={styles.noteText}>{6}</Text>}</View>
+              <View style={{width: 11, height: 11, paddingLeft: 2}} >{notes.has(9) && <Text style={styles.noteText}>{9}</Text>}</View>
+            </View>    
           </View>
-        )) : value && <Text style={[styles.cellText,
+        </View>
+         : value && <Text style={[styles.cellText,
                                     conflict && styles.conflict, 
                                     (conflict && isSelected) && styles.selectedConflict,
                                     prefilled && styles.prefilled]}>{value}
